@@ -20,6 +20,8 @@ import {
   XCircle,
   Clock,
   MinusCircle,
+  BookOpen,
+  CreditCard,
 } from 'lucide-react';
 import { NeoCard, NeoButton, NeoBadge, NeoInput } from '@/components/NeoComponents';
 import { Button } from '@/components/ui/button';
@@ -172,6 +174,17 @@ export default function SemesterPage() {
     );
   }, [subjects, search]);
 
+  const semStats = useMemo(() => {
+    if (!subjects) return { totalSubjects: 0, totalCredits: 0, earnedCredits: 0, remainingCredits: 0 };
+    const totalSubjects = subjects.length;
+    const totalCredits = subjects.reduce((acc: number, s: any) => acc + parseFloat(s.credits || 0), 0);
+    const earnedCredits = subjects
+      .filter((s: any) => s.status === 'passed')
+      .reduce((acc: number, s: any) => acc + parseFloat(s.credits || 0), 0);
+    const remainingCredits = Math.max(0, totalCredits - earnedCredits);
+    return { totalSubjects, totalCredits, earnedCredits, remainingCredits };
+  }, [subjects]);
+
   const toggleSelect = (id: number) => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]));
   };
@@ -228,6 +241,57 @@ export default function SemesterPage() {
             <FileDown size={20} /> Export
           </NeoButton>
         </div>
+      </div>
+
+      {/* Semester Stats Overview Grid */}
+      <div className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <NeoCard color="#FFFFFF" className="relative overflow-hidden p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-black uppercase text-gray-600">Total Subjects</p>
+              <p className="mt-1 text-3xl font-black tracking-tighter">{semStats.totalSubjects}</p>
+            </div>
+            <div className="border-2 border-black bg-white p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <BookOpen size={18} />
+            </div>
+          </div>
+        </NeoCard>
+
+        <NeoCard color="#38BDF8" className="relative overflow-hidden p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-black uppercase text-gray-600">Total Credits</p>
+              <p className="mt-1 text-3xl font-black tracking-tighter">{semStats.totalCredits}</p>
+            </div>
+            <div className="border-2 border-black bg-white p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <CreditCard size={18} />
+            </div>
+          </div>
+        </NeoCard>
+
+        <NeoCard color="#A3E635" className="relative overflow-hidden p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-black uppercase text-gray-600">Earned Credits</p>
+              <p className="mt-1 text-3xl font-black tracking-tighter">{semStats.earnedCredits}</p>
+            </div>
+            <div className="border-2 border-black bg-white p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <CheckCircle2 size={18} />
+            </div>
+          </div>
+        </NeoCard>
+
+        <NeoCard color="#FF9F1C" className="relative overflow-hidden p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-black uppercase text-gray-600">Remaining Credits</p>
+              <p className="mt-1 text-3xl font-black tracking-tighter">{semStats.remainingCredits}</p>
+            </div>
+            <div className="border-2 border-black bg-white p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <AlertCircle size={18} />
+            </div>
+          </div>
+        </NeoCard>
       </div>
 
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center">
