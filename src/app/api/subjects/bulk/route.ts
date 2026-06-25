@@ -65,6 +65,14 @@ export async function POST(request: Request) {
       return Response.json({ success: true });
     }
 
+    if (action === 'shortlist') {
+      await sql`UPDATE subjects SET is_shortlisted = FALSE`;
+      if (ids && ids.length > 0) {
+        await sql(`UPDATE subjects SET is_shortlisted = TRUE WHERE id = ANY($1)`, [ids]);
+      }
+      return Response.json({ success: true });
+    }
+
     return Response.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
     console.error(error);

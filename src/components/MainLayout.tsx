@@ -29,6 +29,7 @@ const navItems = [
   { name: 'Semester 6', href: '/semester/6', icon: BookOpen },
   { name: 'Semester 7', href: '/semester/7', icon: BookOpen },
   { name: 'Semester 8', href: '/semester/8', icon: BookOpen },
+  { name: 'Shortlist Plan', href: '/shortlist', icon: GraduationCap },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Timeline', href: '/timeline', icon: History },
   { name: 'Notes', href: '/notes', icon: StickyNote },
