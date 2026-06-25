@@ -108,7 +108,7 @@ export default function Dashboard() {
   const statCards = [
     { title: 'Total Subjects', value: stats.totalSubjects, icon: BookOpen, color: '#FFFFFF' },
     { title: 'Active Backlogs', value: stats.backlogs, icon: AlertCircle, color: '#FF4D4D' },
-    { title: 'Failed Credits', value: stats.totalFailedCredits, icon: XCircle, color: '#FF9F1C' },
+    { title: 'Uncleared Credits', value: stats.unclearedCredits, icon: XCircle, color: '#FF9F1C' },
     {
       title: 'Credits Earned',
       value: stats.totalCreditsEarned,
@@ -143,8 +143,10 @@ export default function Dashboard() {
           </h1>
           <p className="mt-4 text-lg font-bold text-gray-700">
             Welcome back. You have{' '}
-            <span className="text-[#FF4D4D] underline">{stats.backlogs} pending backlogs</span> to
-            clear.
+            <span className="text-[#FF4D4D] underline">{stats.backlogs} pending backlog subject{stats.backlogs !== 1 ? 's' : ''}</span>
+            {' '}&{' '}
+            <span className="text-[#FF9F1C] underline">{stats.dropped} pending dropped subject{stats.dropped !== 1 ? 's' : ''}</span>
+            {' '}to clear.
           </p>
         </div>
 

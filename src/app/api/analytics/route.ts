@@ -9,6 +9,7 @@ export async function GET() {
     const backlogs = subjects.filter((s) => s.status === 'failed').length;
     const passed = subjects.filter((s) => s.status === 'passed').length;
     const appearing = subjects.filter((s) => s.status === 'appearing').length;
+    const dropped = subjects.filter((s) => s.status === 'dropped').length;
 
     const totalCreditsEarned = subjects
       .filter((s) => s.status === 'passed')
@@ -17,6 +18,12 @@ export async function GET() {
     const totalFailedCredits = subjects
       .filter((s) => s.status === 'failed')
       .reduce((acc, s) => acc + parseFloat(s.credits), 0);
+
+    const totalDroppedCredits = subjects
+      .filter((s) => s.status === 'dropped')
+      .reduce((acc, s) => acc + parseFloat(s.credits), 0);
+
+    const unclearedCredits = totalFailedCredits + totalDroppedCredits;
 
     const totalDegreeCredits = settings[0]?.total_credits || 180;
     const creditsRemaining = Math.max(0, totalDegreeCredits - totalCreditsEarned);
@@ -71,8 +78,11 @@ export async function GET() {
         backlogs,
         passed,
         appearing,
+        dropped,
         totalCreditsEarned,
         totalFailedCredits,
+        totalDroppedCredits,
+        unclearedCredits,
         creditsRemaining,
         degreeProgress,
         completedSemesters,
