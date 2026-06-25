@@ -16,6 +16,7 @@ import {
   MoreVertical,
   ChevronRight,
   ArrowRight,
+  XCircle,
 } from 'lucide-react';
 import {
   BarChart,
@@ -53,7 +54,7 @@ const Counter = ({ value, duration = 1000 }: { value: number; duration?: number 
     let start = 0;
     const end = Math.floor(value);
     if (start === end) {
-      setCount(end);
+      setCount(value);
       return;
     }
 
@@ -63,10 +64,11 @@ const Counter = ({ value, duration = 1000 }: { value: number; duration?: number 
     const timer = setInterval(
       () => {
         start += 1;
-        setCount(start);
         if (start >= end) {
-          setCount(end);
+          setCount(value);
           clearInterval(timer);
+        } else {
+          setCount(start);
         }
       },
       Math.max(incrementTime, 16)
@@ -106,7 +108,7 @@ export default function Dashboard() {
   const statCards = [
     { title: 'Total Subjects', value: stats.totalSubjects, icon: BookOpen, color: '#FFFFFF' },
     { title: 'Active Backlogs', value: stats.backlogs, icon: AlertCircle, color: '#FF4D4D' },
-    { title: 'Subjects Passed', value: stats.passed, icon: CheckCircle2, color: '#A3E635' },
+    { title: 'Failed Credits', value: stats.totalFailedCredits, icon: XCircle, color: '#FF9F1C' },
     {
       title: 'Credits Earned',
       value: stats.totalCreditsEarned,

@@ -14,6 +14,10 @@ export async function GET() {
       .filter((s) => s.status === 'passed')
       .reduce((acc, s) => acc + parseFloat(s.credits), 0);
 
+    const totalFailedCredits = subjects
+      .filter((s) => s.status === 'failed')
+      .reduce((acc, s) => acc + parseFloat(s.credits), 0);
+
     const totalDegreeCredits = settings[0]?.total_credits || 180;
     const creditsRemaining = Math.max(0, totalDegreeCredits - totalCreditsEarned);
     const degreeProgress = Math.min(
@@ -68,6 +72,7 @@ export async function GET() {
         passed,
         appearing,
         totalCreditsEarned,
+        totalFailedCredits,
         creditsRemaining,
         degreeProgress,
         completedSemesters,
